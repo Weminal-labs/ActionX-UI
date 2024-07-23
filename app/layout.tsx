@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header/header";
 import { ThemeProvider } from "@/components/theme-provider";
+import NavBottom from "@/containers/home-page/nav-bottom/nav-bottom";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -43,6 +44,7 @@ export default function RootLayout({
         >
           <Header />
           {children}
+          <NavBottom />
         </ThemeProvider>
       </body>
     </html>
