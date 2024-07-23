@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
-import Action from "@/containers/home-page/action/action";
+import Action from "@/containers/home-page/nav-bottom/nav-bottom";
 import HeroText from "@/containers/home-page/hero/hero";
 
 export default function Home() {
@@ -14,7 +14,7 @@ export default function Home() {
               Explorer
             </Button>
           </div>
-          <Action />
+          <div className="flex justify-center items-center"></div>
         </div>
         <div className="md:hidden text-center">
           <p className="font-medium text-[#B4E380] inline-block bg-black px-[0.375rem] rounded-full ">
