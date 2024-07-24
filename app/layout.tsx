@@ -1,10 +1,15 @@
 /* eslint-disable @next/next/no-page-custom-font */
+import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header/header";
 import { ThemeProvider } from "@/components/theme-provider";
 import NavBottom from "@/containers/home-page/nav-bottom/nav-bottom";
+import { AutoConnectProvider } from "@/components/ui/AutoConnectProvider";
+import { WalletProvider } from "@/components/ui/WalletProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -42,9 +47,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          {children}
-          <NavBottom />
+          <AutoConnectProvider>
+            <WalletProvider>
+              <Header />
+              {children}
+              <Toaster />
+              <NavBottom />
+            </WalletProvider>
+          </AutoConnectProvider>
         </ThemeProvider>
       </body>
     </html>
