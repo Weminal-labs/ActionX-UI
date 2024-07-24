@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import LogoActionx from "@/public/image/logo-actionx";
 import RightArrow from "@/public/image/rightArrow";
 import Link from "next/link";
-
+import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
+import { WalletSelector } from "@/components/ui/WalletSelector";
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -42,10 +43,7 @@ export default function Header() {
             <p className="font-semibold">Docs X</p>
           </div>
         </Link>
-        <Button>
-          <i className="fas fa-wallet mr-2"></i>
-          <span>Connect wallet</span>
-        </Button>
+        <WalletSelector />
         <ModeToggle />
       </nav>
     </header>
