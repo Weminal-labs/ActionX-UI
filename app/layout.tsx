@@ -10,6 +10,7 @@ import NavBottom from "@/containers/home-page/nav-bottom/nav-bottom";
 import { AutoConnectProvider } from "@/components/AutoConnectProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { WalletProvider } from "@/components/WalletProvider";
+import TopLoader from "@/components/TopLoader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -49,6 +50,7 @@ export default function RootLayout({
         >
           <AutoConnectProvider>
             <WalletProvider>
+              <TopLoader />
               <Header />
               {children}
               <Toaster />
