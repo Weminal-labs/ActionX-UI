@@ -97,9 +97,9 @@ export function WalletSelector(walletSortingOptions: WalletSortingOptions) {
         <DropdownMenuItem onSelect={copyAddress} className="gap-2">
           <Copy className="h-4 w-4" /> Copy address
         </DropdownMenuItem>
-        <DropdownMenuItem onSelect={copyPublicKey} className="gap-2">
+        {/* <DropdownMenuItem onSelect={copyPublicKey} className="gap-2">
           <Copy className="h-4 w-4" /> Copy public key
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
         {wallet && isAptosConnectWallet(wallet) && (
           <DropdownMenuItem asChild>
             <a
