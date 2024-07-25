@@ -271,9 +271,9 @@ function renderEducationScreen(screen: AboutAptosConnectEducationScreen) {
         <Button variant="ghost" size="icon" onClick={screen.cancel}>
           <ArrowLeft />
         </Button>
-        <AlertDialogTitle className="leading-snug text-base text-center">
+        <DialogTitle className="leading-snug text-base text-center">
           About Aptos Connect
-        </AlertDialogTitle>
+        </DialogTitle>
       </DialogHeader>
 
       <div className="flex h-[162px] pb-3 items-end justify-center">
