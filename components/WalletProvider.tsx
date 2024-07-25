@@ -7,8 +7,8 @@ import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
 // import { FewchaWallet } from "fewcha-plugin-wallet-adapter";
 import { PropsWithChildren } from "react";
 import { Network } from "@aptos-labs/ts-sdk";
-import { useAutoConnect } from "./AutoConnectProvider";
 import { useToast } from "@/components/ui/use-toast";
+import { useAutoConnect } from "@/components/AutoConnectProvider";
 
 export const WalletProvider = ({ children }: PropsWithChildren) => {
   const { autoConnect } = useAutoConnect();
