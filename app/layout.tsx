@@ -7,9 +7,9 @@ import "./globals.css";
 import Header from "@/components/header/header";
 import { ThemeProvider } from "@/components/theme-provider";
 import NavBottom from "@/containers/home-page/nav-bottom/nav-bottom";
-import { AutoConnectProvider } from "@/components/ui/AutoConnectProvider";
-import { WalletProvider } from "@/components/ui/WalletProvider";
+import { AutoConnectProvider } from "@/components/AutoConnectProvider";
 import { Toaster } from "@/components/ui/toaster";
+import { WalletProvider } from "@/components/WalletProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
