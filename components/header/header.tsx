@@ -10,7 +10,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="flex items-center justify-between w-full fixed top-0 z-10 px-4 lg:px-16 py-4 bg-white lg:bg-transparent">
+    <header className="flex items-center justify-between w-full fixed top-0 z-10 px-4 lg:px-16 py-4 bg-transparent">
       <Link href={"/"}>
         <span className="flex items-center relative">
           <p className="text-2xl lg:text-3xl font-bold bg-logoGradientDark bg-clip-text text-transparent">
@@ -34,7 +34,7 @@ export default function Header() {
       <nav
         className={`flex-col items-center gap-4 lg:gap-8 md:flex md:flex-row ${
           isOpen ? "flex" : "hidden"
-        } absolute top-full left-0 right-0 bg-white md:bg-transparent md:static`}
+        } absolute top-full left-0 right-0 bg-transparent md:static`}
       >
         <div className="flex items-center gap-2 px-4 py-2 md:p-0">
           <Link
