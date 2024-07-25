@@ -2,7 +2,7 @@
 import { GridBackground } from "@/components/ui/grid-background";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 
-export default function Action() {
+export default function ActionPage() {
   const placeholders = [
     "Enter an Action URL to unfurl it into a Blink",
     "Provide an Action URL to expand it into a Blink",
