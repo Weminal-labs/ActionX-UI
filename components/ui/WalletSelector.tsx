@@ -35,15 +35,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { DropdownMenuItemIndicator } from "@radix-ui/react-dropdown-menu";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { AlertDialogTitle } from "@radix-ui/react-alert-dialog";
 import { useToast } from "@/components/ui/use-toast";
 
 export function WalletSelector(walletSortingOptions: WalletSortingOptions) {
@@ -149,6 +148,7 @@ function ConnectWalletDialog({
 
   return (
     <DialogContent className="max-h-screen overflow-auto">
+      <DialogDescription></DialogDescription>
       <AboutAptosConnect renderEducationScreen={renderEducationScreen}>
         <DialogHeader>
           <DialogTitle className="flex flex-col text-center leading-snug">
