@@ -8,11 +8,11 @@ async function fetchActionData(url: string) {
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error("Network response was not ok");
     }
     return await response.json();
   } catch (error) {
-    console.error('There was a problem with the fetch operation:', error);
+    console.error("There was a problem with the fetch operation:", error);
     return null;
   }
 }
@@ -45,7 +45,7 @@ export default function ActionPage() {
       <GridBackground>
         <div className="w-full h-full hidden md:block">
           <div className="flex flex-col justify-center items-center w-full h-full">
-            <div className="w-[55%] mb-8">
+            <div className="w-[55%] h-[9%] flex items-center justify-center mb-8">
               <PlaceholdersAndVanishInput
                 placeholders={placeholders}
                 onChange={handleChange}
