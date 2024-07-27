@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import {
+  InputTransactionData,
+  useWallet,
+} from "@aptos-labs/wallet-adapter-react";
 import { useToast } from "@/components/ui/use-toast";
-import { InputTransactionData } from "@aptos-labs/wallet-adapter-core";
+import { Aptos } from "@aptos-labs/ts-sdk";
 import Image from "next/image";
 import { InputAmount } from "@/components/ui/input-amount";
 import { TransactionHash } from "@/components/TransactionHash";
@@ -15,7 +18,7 @@ interface ActionData {
   links: {
     actions: Array<{
       label: string;
-      href: string;
+      amount: number;
       parameters?: Array<{
         name: string;
         label: string;
@@ -27,6 +30,7 @@ interface ActionData {
 const APTOS_COIN = "0x1::aptos_coin::AptosCoin";
 
 export function ActionDisplay({ data }: { data: ActionData }) {
+  const aptos = new Aptos();
   const { account, network, signAndSubmitTransaction } = useWallet();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
@@ -35,19 +39,22 @@ export function ActionDisplay({ data }: { data: ActionData }) {
     console.log(e.target.value);
   };
 
-  const onSignAndSubmitTransaction = async () => {
+  const onSignAndSubmitTransaction = async (amount: number) => {
+    console.log(amount);
     if (!account) return;
+    const amountInOctas = amount * 10 ** 8; // Chuyển đổi APT sang Octas
     const transaction: InputTransactionData = {
       data: {
         function: "0x1::coin::transfer",
         typeArguments: [APTOS_COIN],
         functionArguments: [
           "0x0bd634d9cad82957af1f1338de981fd33e0d1928e16f0b27731e4d1b0e6e4738",
-          1,
-        ], // 1 is in Octas
+          amountInOctas,
+        ],
       },
     };
     try {
+      console.log(amountInOctas);
       const response = await signAndSubmitTransaction(transaction);
       await aptosClient(network).waitForTransaction({
         transactionHash: response.hash,
@@ -89,7 +96,9 @@ export function ActionDisplay({ data }: { data: ActionData }) {
             {actionsWithoutParameters.map((action, index) => (
               <Button
                 key={index}
-                onClick={onSignAndSubmitTransaction}
+                onClick={() =>
+                  onSignAndSubmitTransaction(Number(action.amount))
+                }
                 className="flex-1"
                 disabled={loading}
               >
@@ -105,7 +114,7 @@ export function ActionDisplay({ data }: { data: ActionData }) {
                     key={paramIndex}
                     placeholder={param.label}
                     onChange={handleChange}
-                    onSubmit={onSignAndSubmitTransaction}
+                    onSubmit={() => onSignAndSubmitTransaction(action.amount)}
                   />
                 ))}
               </div>

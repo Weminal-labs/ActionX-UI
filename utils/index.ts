@@ -29,14 +29,14 @@ export const TESTNET_CLIENT = new Aptos(TESTNET_CONFIG);
 
 export const isSendableNetwork = (
   connected: boolean,
-  networkName?: string
+  networkName?: string,
 ): boolean => {
   return connected && !isMainnet(connected, networkName);
 };
 
 export const isMainnet = (
   connected: boolean,
-  networkName?: string
+  networkName?: string,
 ): boolean => {
   return connected && networkName === Network.MAINNET;
 };
