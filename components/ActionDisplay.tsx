@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useToast } from "@/components/ui/use-toast";
+import { InputTransactionData } from "@aptos-labs/wallet-adapter-core";
 import Image from "next/image";
 import { InputAmount } from "@/components/ui/input-amount";
+import { TransactionHash } from "@/components/TransactionHash";
+import { aptosClient } from "@/utils";
 
 interface ActionData {
   title: string;
@@ -21,97 +24,40 @@ interface ActionData {
     }>;
   };
 }
+const APTOS_COIN = "0x1::aptos_coin::AptosCoin";
 
 export function ActionDisplay({ data }: { data: ActionData }) {
-  const { account, signAndSubmitTransaction } = useWallet();
+  const { account, network, signAndSubmitTransaction } = useWallet();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-
-  const placeholders = [
-    "What's the first rule of Fight Club?",
-    "Who is Tyler Durden?",
-    "Where is Andrew Laeddis Hiding?",
-    "Write a Javascript method to reverse a string",
-    "How to assemble your own PC?",
-  ];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
   };
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("submitted");
-  };
 
-  const handleAction = async (action: any) => {
-    if (!account) {
-      toast({
-        title: "Lỗi",
-        description: "Vui lòng kết nối ví trước khi thực hiện giao dịch.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const body = {
-        fromAddress: account.address.toString(),
-        toAddress:
+  const onSignAndSubmitTransaction = async () => {
+    if (!account) return;
+    const transaction: InputTransactionData = {
+      data: {
+        function: "0x1::coin::transfer",
+        typeArguments: [APTOS_COIN],
+        functionArguments: [
           "0x0bd634d9cad82957af1f1338de981fd33e0d1928e16f0b27731e4d1b0e6e4738",
-        amount: "1",
-      };
-      console.log("Dữ liệu gửi đi:", body);
-
-      const response = await fetch(
-        "http://127.0.0.1:3000/api/actions/transfer-apt",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-          credentials: "include",
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Chi tiết lỗi:", errorData);
-        throw new Error(errorData.message || "Yêu cầu không hợp lệ");
-      }
-
-      const result = await response.json();
-      console.log(result);
-      const { transaction, message } = result;
-
-      // Sử dụng signAndSubmitTransaction để ký và gửi giao dịch
-      const pendingTransaction = await signAndSubmitTransaction(transaction);
-      console.log("Pending transaction:", pendingTransaction);
-
-      // Chờ giao dịch được xác nhận
-      const txnHash = await pendingTransaction.hash;
-      console.log("Transaction hash:", txnHash);
-
+          1,
+        ], // 1 is in Octas
+      },
+    };
+    try {
+      const response = await signAndSubmitTransaction(transaction);
+      await aptosClient(network).waitForTransaction({
+        transactionHash: response.hash,
+      });
       toast({
-        title: "Thành công",
-        description: `${message}. Hash giao dịch: ${txnHash}`,
+        title: "Success",
+        description: <TransactionHash hash={response.hash} network={network} />,
       });
     } catch (error) {
-      console.error("Error details:", error);
-      let errorMessage = "Đã xảy ra lỗi không xác định";
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      } else if (typeof error === "string") {
-        errorMessage = error;
-      }
-      toast({
-        title: "Lỗi",
-        description: errorMessage,
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
+      console.error(error);
     }
   };
 
@@ -143,7 +89,7 @@ export function ActionDisplay({ data }: { data: ActionData }) {
             {actionsWithoutParameters.map((action, index) => (
               <Button
                 key={index}
-                onClick={() => handleAction(action)}
+                onClick={onSignAndSubmitTransaction}
                 className="flex-1"
                 disabled={loading}
               >
@@ -159,7 +105,7 @@ export function ActionDisplay({ data }: { data: ActionData }) {
                     key={paramIndex}
                     placeholder={param.label}
                     onChange={handleChange}
-                    onSubmit={() => handleAction(action)}
+                    onSubmit={onSignAndSubmitTransaction}
                   />
                 ))}
               </div>
