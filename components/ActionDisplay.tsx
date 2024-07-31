@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { InputTransactionData, useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useToast } from "@/components/ui/use-toast";
 import Image from "next/image";
 import { InputAmount } from "@/components/ui/input-amount";
@@ -56,9 +56,9 @@ export function ActionDisplay({ data }: { data: ActionData }) {
     setLoading(true);
     try {
       const body = {
-        fromAddress: account.address.toString(),
+        fromAddress: account.address as string,
         toAddress:
-          "0x0bd634d9cad82957af1f1338de981fd33e0d1928e16f0b27731e4d1b0e6e4738",
+          "0x83e66f0e77cbdfa11bb841667861b4b671ab51f863174d48f51fe2b0ff46fe53",
         amount: "1",
       };
       console.log("Dữ liệu gửi đi:", body);
@@ -84,9 +84,11 @@ export function ActionDisplay({ data }: { data: ActionData }) {
       const result = await response.json();
       console.log(result);
       const { transaction, message } = result;
+      console.log(transaction);
+
 
       // Sử dụng signAndSubmitTransaction để ký và gửi giao dịch
-      const pendingTransaction = await signAndSubmitTransaction(transaction);
+      const pendingTransaction = await signAndSubmitTransaction(transaction as InputTransactionData);
       console.log("Pending transaction:", pendingTransaction);
 
       // Chờ giao dịch được xác nhận
