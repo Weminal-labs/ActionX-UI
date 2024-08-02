@@ -68,8 +68,8 @@ export function ActionDisplay({ data }: { data: ActionData }) {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Chi tiết lỗi:", errorData);
-        throw new Error(errorData.message || "Yêu cầu không hợp lệ");
+        console.error("Detailed error:", errorData);
+        throw new Error(errorData.message || "Invalid request");
       }
 
       const result = await response.json();
