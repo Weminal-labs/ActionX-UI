@@ -18,6 +18,7 @@ export function InputAmount({
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState("");
   const [animating, setAnimating] = useState(false);
+  const [error, setError] = useState("");
 
   const draw = useCallback(() => {
     if (!inputRef.current) return;
@@ -146,10 +147,18 @@ export function InputAmount({
     onSubmit && onSubmit(e);
   };
 
+  const validateInput = (value: string) => {
+    if (isNaN(Number(value))) {
+      setError("Please enter a valid number.");
+    } else {
+      setError("");
+    }
+  };
+
   return (
     <form
       className={cn(
-        "w-full relative mx-auto bg-white dark:bg-zinc-800 h-12 rounded-md overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
+        "w-full relative mx-auto bg-white dark:bg-zinc-800 h-12 rounded-md  shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
         value && "bg-gray-50"
       )}
       onSubmit={handleSubmit}
@@ -164,7 +173,9 @@ export function InputAmount({
       <input
         onChange={(e) => {
           if (!animating) {
-            setValue(e.target.value);
+            const inputValue = e.target.value;
+            setValue(inputValue);
+            validateInput(inputValue);
             onChange && onChange(e);
           }
         }}
@@ -180,12 +191,13 @@ export function InputAmount({
       />
 
       <button
-        disabled={!value}
+        disabled={!!error || !value}
         type="submit"
-        className="absolute right-2 top-1/2 z-50 -translate-y-1/2 h-8 w-[20%] rounded-sm text-white disabled:bg-gray-400 bg-black dark:bg-zinc-900 dark:disabled:bg-zinc-800 transition duration-200 flex items-center justify-center"
+        className="absolute right-2 top-1/2 z-50 -translate-y-1/2 h-8 w-[20%] rounded-sm bg-primary text-primary-foreground shadow hover:bg-primary/90 disabled:bg-gray-400 dark:bg-buttonDarkCard dark:disabled:bg-buttonDarkCard dark:disabled:opacity-30 transition duration-200 flex items-center justify-center"
       >
         Send APT
       </button>
+      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
     </form>
   );
 }
