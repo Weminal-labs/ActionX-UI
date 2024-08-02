@@ -53,7 +53,7 @@ export default function ActionPage() {
               />
             </div>
             {actionData && (
-              <div className="w-[55%]">
+              <div className="w-[35%]">
                 <ActionDisplay data={actionData} />
               </div>
             )}
