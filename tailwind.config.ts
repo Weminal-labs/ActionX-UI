@@ -66,6 +66,7 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        textDarkCard: "#6E767D",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -91,6 +92,10 @@ const config = {
           "linear-gradient(103deg, #1F1C1C 41.55%, #786B6B 68.9%, #857676 108.42%)",
         logoGradientDark:
           "linear-gradient(103deg, #333333 41.55%, #666666 68.9%, #999999 108.42%)",
+      },
+      backgroundColor: {
+        darkCard: "#15181C",
+        buttonDarkCard: "#1DA1F2",
       },
     },
   },
